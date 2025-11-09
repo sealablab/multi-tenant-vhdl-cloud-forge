@@ -1,6 +1,6 @@
 # forge-vhdl: Environment-Aware VHDL Development
 
-**Version:** 3.2.0
+**Version:** 3.3.0-multi-tenant
 **Purpose:** Auto-detecting VHDL framework with AI-assisted development
 **Deployment:** Local CLI or Cloud (auto-configured)
 
@@ -384,7 +384,7 @@ uv run python scripts/cloud_setup_with_ghdl.py
 ---
 
 **Last Updated:** 2025-11-09
-**Version:** 3.2.0 (environment-aware, slim router, template-ready)
+**Version:** 3.3.0-multi-tenant (environment-aware, slim router, template-ready)
 **Original Template:** https://github.com/vmars-20/forge-vhdl-3v3-vmars
 **Maintainer:** Moku Instrument Forge Team
 

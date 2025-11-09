@@ -1,48 +1,108 @@
-# FORGE Documentation
+# Documentation Directory
 
-Comprehensive guides for FORGE architecture, VHDL development, and testing.
+**Where you are:** `/docs/`
+**Purpose:** Technical standards, guides, and troubleshooting
 
-## Core Concepts
+## What Should Be Here
 
-**FORGE_CALLING_CONVENTION.md** ⭐
-- CR0[31:29] control scheme deep dive
-- The 4-condition enable pattern
-- Deployment handshaking
+This directory contains comprehensive technical documentation:
 
-**HVS_ENCODING.md** ⭐
-- Hierarchical Voltage Scheme specification
-- 14-bit state + status encoding
-- Oscilloscope debugging patterns
+```
+docs/
+├── VHDL_CODING_STANDARDS.md      # Complete style guide (600+ lines)
+├── VHDL_QUICK_REF.md             # Templates and checklists
+├── PROGRESSIVE_TESTING_GUIDE.md  # P1/P2/P3 test patterns
+├── COCOTB_TROUBLESHOOTING.md     # Problem→solution guide
+└── README.md                      # This file
+```
 
-**THREE_LAYER_ARCHITECTURE.md**
-- FORGE 3-layer pattern (Loader → Shim → Main)
-- Layer responsibilities
-- Integration patterns
+## Key Documents
 
-## Getting Started
+### VHDL_CODING_STANDARDS.md
+**Purpose:** Mandatory VHDL coding rules for all components
 
-**GETTING_STARTED.md**
-- Tutorial using counter example
-- Step-by-step FORGE development
-- From VHDL to deployment
+**Key Rules:**
+- No enums for FSM states (use constants)
+- Strict port ordering (clk, rst_n, clk_en, enable, data, status)
+- Reset hierarchy (proper nesting)
+- Signal prefixes (ctrl_, cfg_, stat_, dbg_)
 
-## Development Guides
+**When to load:** Before writing any VHDL code
 
-**VHDL_CODING_STANDARDS.md**
-- Mandatory VHDL rules for FORGE
-- Port order, signal naming, FSM patterns
-- Verilog compatibility guidelines
+### PROGRESSIVE_TESTING_GUIDE.md
+**Purpose:** Design patterns for P1/P2/P3 test levels
 
-**COCOTB_GUIDE.md**
-- Progressive testing (P1/P2/P3)
-- CocoTB best practices
-- Test structure patterns
+**Contents:**
+- Test level definitions
+- Output filtering strategies
+- Test organization patterns
+- Coverage guidelines
 
-**COCOTB_TROUBLESHOOTING.md**
-- Common CocoTB issues and solutions
-- GHDL debugging tips
-- Type constraint workarounds
+**When to load:** When designing or debugging tests
+
+### COCOTB_TROUBLESHOOTING.md
+**Purpose:** Common CocoTB issues and solutions
+
+**Sections:**
+- Section 0: Type access issues ('HierarchyObject' errors)
+- GHDL output filtering
+- Test discovery problems
+- Signal access patterns
+
+**When to load:** When tests fail or behave unexpectedly
+
+### VHDL_QUICK_REF.md
+**Purpose:** Quick templates and checklists
+
+**Contents:**
+- Entity/architecture templates
+- FSM patterns
+- Test templates
+- Review checklists
+
+**When to load:** Quick syntax reference during coding
 
 ## Navigation
 
-Start with **GETTING_STARTED.md** for tutorials, or jump to **FORGE_CALLING_CONVENTION.md** and **HVS_ENCODING.md** for core architecture concepts.
+- **Up:** Go to repository root
+- **Standards:** Start with VHDL_CODING_STANDARDS.md
+- **Testing:** See PROGRESSIVE_TESTING_GUIDE.md
+- **Examples:** See `/workflow/specs/reference/` for implementations
+
+## AI Agent Notes
+
+**Loading Strategy (from CONTEXT_MANAGEMENT.md):**
+- These are Tier 2 documents (~2-5k tokens each)
+- Load only when actively needed
+- Don't load all at once (wastes tokens)
+- Prefer loading specific sections vs entire files
+
+**Common Patterns:**
+1. User asks about FSM encoding → Load VHDL_CODING_STANDARDS.md
+2. User has test output issues → Load PROGRESSIVE_TESTING_GUIDE.md
+3. User gets CocoTB error → Load COCOTB_TROUBLESHOOTING.md
+4. User needs template → Load VHDL_QUICK_REF.md
+
+## Quick Reference
+
+### FSM State Encoding (No Enums!)
+```vhdl
+constant STATE_IDLE  : std_logic_vector(1 downto 0) := "00";
+constant STATE_ARMED : std_logic_vector(1 downto 0) := "01";
+```
+
+### Port Ordering
+```vhdl
+clk → rst_n → clk_en → enable → data_in → data_out → status
+```
+
+### Test Levels
+- P1: 2-4 tests, <20 lines output
+- P2: 5-10 tests, <50 lines output
+- P3: 15-25 tests, <100 lines output
+
+### Common Issue
+```
+Error: 'HierarchyObject' object has no attribute 'value'
+Solution: VHDL real/boolean types need wrapper
+```
